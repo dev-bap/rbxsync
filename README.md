@@ -144,7 +144,8 @@ description = "100 coins"
 icon = "icons/coins.png"
 ```
 
-### Experience
+<details>
+<summary><code>[experience]</code></summary>
 
 | Field | Type | Description |
 | --- | --- | --- |
@@ -152,7 +153,10 @@ icon = "icons/coins.png"
 | `creator.type` | `string` | `"user"` or `"group"` |
 | `creator.id` | `u64` | Your Roblox user or group ID |
 
-### Codegen
+</details>
+
+<details>
+<summary><code>[codegen]</code></summary>
 
 | Field | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -160,7 +164,10 @@ icon = "icons/coins.png"
 | `typescript` | `bool` | `false` | Also generate a TypeScript definition file (`.d.ts`) |
 | `style` | `string` | `"flat"` | `"flat"` or `"nested"` (see [Code Generation](#code-generation)) |
 
-#### `[codegen.paths]`
+</details>
+
+<details>
+<summary><code>[codegen.paths]</code></summary>
 
 Override the default section name for each resource type. Dot-separated segments become either a prefix (flat) or nested tables (nested).
 
@@ -172,12 +179,15 @@ Override the default section name for each resource type. Dot-separated segments
 
 ```toml
 [codegen.paths]
-passes = "player.vips"
-badges = "rewards"
-products = "shop.items"
+passes = "gamepasses"
+badges = "achievements"
+products = "devproducts"
 ```
 
-#### `[codegen.extra]`
+</details>
+
+<details>
+<summary><code>[codegen.extra]</code></summary>
 
 Inject asset IDs into the generated file. Useful for manually managed assets or assets from other universes that you still want available in code.
 
@@ -187,14 +197,20 @@ Inject asset IDs into the generated file. Useful for manually managed assets or 
 "products.starter_pack" = 9876543
 ```
 
-### Icons
+</details>
+
+<details>
+<summary><code>[icons]</code></summary>
 
 | Field | Type | Default | Description |
 | --- | --- | --- | --- |
 | `bleed` | `bool` | `true` | Apply alpha bleed to images before uploading. Changing this won't invalidate the lockfile or reupload existing images |
 | `dir` | `string` | `"icons"` | Directory for icons downloaded by `pull --accept-remote` |
 
-### Game Passes
+</details>
+
+<details>
+<summary><code>[passes.&lt;name&gt;]</code></summary>
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
@@ -206,7 +222,10 @@ Inject asset IDs into the generated file. Useful for manually managed assets or 
 | `regional_pricing` | `bool` | No | Enable regional pricing (default: `false`) |
 | `path` | `string` | No | Override the codegen path for this item |
 
-### Badges
+</details>
+
+<details>
+<summary><code>[badges.&lt;name&gt;]</code></summary>
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
@@ -216,7 +235,10 @@ Inject asset IDs into the generated file. Useful for manually managed assets or 
 | `enabled` | `bool` | No | Whether the badge is active (default: `true`) |
 | `path` | `string` | No | Override the codegen path for this item |
 
-### Developer Products
+</details>
+
+<details>
+<summary><code>[products.&lt;name&gt;]</code></summary>
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
@@ -229,18 +251,14 @@ Inject asset IDs into the generated file. Useful for manually managed assets or 
 | `store_page` | `bool` | No | Show on the store page (default: `false`) |
 | `path` | `string` | No | Override the codegen path for this item |
 
+</details>
+
 ## Authentication
 
 rbxsync uses the [Roblox Open Cloud API](https://create.roblox.com/docs/cloud/open-cloud). Create an API key at https://create.roblox.com/dashboard/credentials and pass it via `--api-key`:
 
 ```sh
 rbxsync sync --api-key YOUR_API_KEY
-```
-
-Or read it from a file:
-
-```sh
-rbxsync sync --api-key $(cat apikey.txt)
 ```
 
 ### Required API scopes
@@ -320,9 +338,9 @@ Use `[codegen.paths]` to remap entire sections, or per-item `path` to override i
 
 ```toml
 [codegen.paths]
-passes = "player.vips"
-badges = "rewards"
-products = "shop.items"
+passes = "gamepasses"
+badges = "achievements"
+products = "devproducts"
 
 [products.special_offer]
 price = 99
@@ -333,15 +351,16 @@ With `style = "nested"`, this produces:
 
 ```lua
 local GameIds = {
-	player = {
-		vips = {
-			VIP = 67890,
-		},
+	achievements = {
+		Welcome = 98765,
+	},
+	gamepasses = {
+		VIP = 67890,
+	},
+	devproducts = {
+		Coins100 = 11111,
 	},
 	shop = {
-		items = {
-			Coins100 = 11111,
-		},
 		specials = {
 			special_offer = 12345,
 		},
@@ -353,15 +372,16 @@ With `style = "flat"`:
 
 ```lua
 local GameIds = {
-	["player.vips.VIP"] = 67890,
-	["shop.items.Coins100"] = 11111,
+	["achievements.Welcome"] = 98765,
+	["gamepasses.VIP"] = 67890,
+	["devproducts.Coins100"] = 11111,
 	["shop.specials.special_offer"] = 12345,
 }
 ```
 
 ### Extra entries
 
-Inject pre-existing assets into the generated file without syncing them:
+Inject asset IDs for manually managed assets or other universes into the generated file:
 
 ```toml
 [codegen.extra]
