@@ -14,7 +14,7 @@ rbxsync syncs your local configuration to Roblox, tracks remote state in a lockf
 - **Flat & nested styles** - Choose between flat path-like keys or nested tables
 - **Custom codegen paths** - Remap sections and individual items to custom paths
 - **Extra entries** - Inject asset IDs for manually managed assets or other universes into the generated file
-- **Alpha bleed** - Fixes resize artifacts on icons before uploading (enabled by default)
+- **Alpha bleed** - Applies alpha bleeding to icons before uploading (enabled by default)
 - **Duplicate detection** - Warns when multiple remote resources share the same name
 
 ## Installation
@@ -76,7 +76,9 @@ Sync local config to Roblox. Creates, updates, and tracks resources.
 
 ### `rbxsync pull`
 
-Pull remote state into the config and lockfile. Remote is the source of truth: remote-visible fields (name, price, description, etc.) are updated in the config while config-only fields (icon, path, regional_pricing) are preserved. New remote resources are added to the config. Detects icon conflicts.
+Pull remote state into the config and lockfile.
+
+Remote is the source of truth: remote-visible fields (`name`, `price`, `description`, etc.) are updated in the config while config-only fields (`icon`, `path`, `regional_pricing`) are preserved. New remote resources are added to the config.
 
 | Flag | Description |
 | --- | --- |
