@@ -408,7 +408,16 @@ Inject asset IDs for manually managed assets or other universes into the generat
 "products.starter_pack" = 9876543
 ```
 
-These entries are merged alongside synced resources in the output, using the same flat/nested style.
+These entries are merged alongside synced resources in the output. With `style = "flat"`:
+
+```lua
+local GameIds = {
+	["passes.VIP"] = 67890,
+	["passes.legacy_vip"] = 1234567,
+	["products.Coins100"] = 11111,
+	["products.starter_pack"] = 9876543,
+}
+```
 
 ### TypeScript
 
