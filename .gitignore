@@ -1,0 +1,9 @@
+/target
+*.lock
+!rbxsync.lock.toml
+
+# Editor/tool configs
+.idea/
+.vscode/
+.zed/
+.claude/

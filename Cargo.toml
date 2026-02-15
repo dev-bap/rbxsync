@@ -1,0 +1,27 @@
+[package]
+name = "rbxsync"
+version = "0.1.0"
+edition = "2021"
+description = "Declaratively manage Roblox game passes, badges, and developer products"
+license = "MIT"
+repository = "https://github.com/dev-bap/rbxsync"
+homepage = "https://github.com/dev-bap/rbxsync"
+readme = "README.md"
+keywords = ["roblox", "gamepass", "badge", "devproduct", "sync"]
+categories = ["command-line-utilities", "game-development"]
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
+reqwest = { version = "0.12", features = ["json", "multipart", "gzip"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+anyhow = "1"
+blake3 = "1"
+colored = "2"
+image = "0.25"
+bit-vec = "0.8"
+
+[dev-dependencies]
+tempfile = "3"
