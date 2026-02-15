@@ -33,6 +33,14 @@ cargo install rbxsync
 
 ## Quick Start
 
+### From an existing experience
+
+```sh
+rbxsync init --from-remote --universe-id 123456 --api-key YOUR_API_KEY
+```
+
+This fetches all your existing passes, badges, and products, downloads their icons, and generates both the config and lockfile. You can find your universe ID in the Creator Hub under your experience's URL.
+
 ### From scratch
 
 ```sh
@@ -44,14 +52,6 @@ This creates a `rbxsync.toml` template. Edit it with your universe ID, creator i
 ```sh
 rbxsync sync --api-key YOUR_API_KEY
 ```
-
-### From existing remote resources
-
-```sh
-rbxsync init --from-remote --universe-id 123456 --api-key YOUR_API_KEY
-```
-
-This fetches all your existing passes, badges, and products, downloads their icons, and generates both the config and lockfile.
 
 ## Commands
 
