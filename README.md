@@ -142,21 +142,22 @@ bleed = true           # Apply alpha bleed before uploading (default: true)
 dir = "icons"          # Directory for downloaded icons (default: "icons")
 
 [passes.VIP]
+name = "VIP Pass"      # explicit display name on Roblox
 price = 499
 description = "VIP access to exclusive areas"
 icon = "icons/vip.png"
 
-[passes.Premium]
+[passes.Premium]       # name defaults to "Premium"
 price = 999
 description = "Premium membership"
 icon = "icons/premium.png"
 
-[badges.Welcome]
+[badges.Welcome]       # name defaults to "Welcome"
 description = "Welcome to the game!"
 icon = "icons/welcome.png"
 enabled = true
 
-[products.Coins100]
+[products.Coins100]    # name defaults to "Coins100"
 price = 99
 description = "100 coins"
 icon = "icons/coins.png"
