@@ -13,7 +13,7 @@ rbxsync syncs your local configuration to Roblox, tracks remote state in a lockf
 - **Code generation** - Generates a Luau module (+ optional TypeScript definitions) mapping resource names to asset IDs
 - **Flat & nested styles** - Choose between flat path-like keys or nested tables
 - **Custom codegen paths** - Remap sections and individual items to custom paths
-- **Extra entries** - Inject pre-existing asset IDs into the generated file without syncing them
+- **Extra entries** - Inject asset IDs for manually managed assets or other universes into the generated file
 - **Alpha bleed** - Fixes resize artifacts on icons before uploading (enabled by default)
 - **Duplicate detection** - Warns when multiple remote resources share the same name
 
@@ -177,7 +177,7 @@ products = "shop.items"
 
 #### `[codegen.extra]`
 
-Inject pre-existing asset IDs into the generated file. Useful for assets that were created outside rbxsync (e.g. legacy passes, manually created products) but that you still want available in code.
+Inject asset IDs into the generated file. Useful for manually managed assets or assets from other universes that you still want available in code.
 
 ```toml
 [codegen.extra]
@@ -189,7 +189,7 @@ Inject pre-existing asset IDs into the generated file. Useful for assets that we
 
 | Field | Type | Default | Description |
 | --- | --- | --- | --- |
-| `bleed` | `bool` | `true` | Apply alpha bleed to fix resize artifacts |
+| `bleed` | `bool` | `true` | Apply alpha bleed to images before uploading. Changing this won't invalidate the lockfile or reupload existing images |
 | `dir` | `string` | `"icons"` | Directory for icons downloaded by `pull --accept-remote` |
 
 ### Game Passes
