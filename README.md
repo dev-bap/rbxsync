@@ -55,7 +55,8 @@ This fetches all your existing passes, badges, and products, downloads their ico
 
 ## Commands
 
-### `rbxsync init`
+<details>
+<summary><code>rbxsync init</code></summary>
 
 Initialize a new config file.
 
@@ -64,7 +65,10 @@ Initialize a new config file.
 | `--from-remote` | Populate config from existing remote resources |
 | `--universe-id` | Universe ID (required with `--from-remote`) |
 
-### `rbxsync sync`
+</details>
+
+<details>
+<summary><code>rbxsync sync</code></summary>
 
 Sync local config to Roblox. Creates, updates, and tracks resources.
 
@@ -74,7 +78,10 @@ Sync local config to Roblox. Creates, updates, and tracks resources.
 | `--only` | Only sync specific types: `passes`, `badges`, `products` (comma-separated) |
 | `--badge-cost` | Expected cost in Robux when creating a badge (default: `0`) |
 
-### `rbxsync pull`
+</details>
+
+<details>
+<summary><code>rbxsync pull</code></summary>
 
 Pull remote state into the config and lockfile.
 
@@ -86,11 +93,17 @@ Remote is the source of truth: remote-visible fields (`name`, `price`, `descript
 | `--accept-remote` | Download remote icons and update local files |
 | `--accept-local` | Keep local icons and re-upload on next sync |
 
-### `rbxsync check`
+</details>
+
+<details>
+<summary><code>rbxsync check</code></summary>
 
 Validate config, check lockfile consistency, and report if anything is out of sync.
 
-### `rbxsync rename <resource> <old_key> <new_key>`
+</details>
+
+<details>
+<summary><code>rbxsync rename &lt;resource&gt; &lt;old_key&gt; &lt;new_key&gt;</code></summary>
 
 Rename a resource key in both config and lockfile. The display name is preserved automatically.
 
@@ -98,9 +111,14 @@ Rename a resource key in both config and lockfile. The display name is preserved
 rbxsync rename passes VIP vip_pass
 ```
 
-### `rbxsync list <resource>`
+</details>
+
+<details>
+<summary><code>rbxsync list &lt;resource&gt;</code></summary>
 
 List remote resources. `resource` is one of: `passes`, `badges`, `products`.
+
+</details>
 
 ## Configuration
 
