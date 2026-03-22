@@ -14,7 +14,10 @@ fn api_key_env_var() {
     // 1. Absent when env var is not set
     unsafe { std::env::remove_var("RBXSYNC_API_KEY") };
     let cli = Cli::try_parse_from(["rbxsync", "check"]).unwrap();
-    assert!(cli.api_key.is_none(), "should be None when env var is unset");
+    assert!(
+        cli.api_key.is_none(),
+        "should be None when env var is unset"
+    );
 
     // 2. Picked up from env var
     unsafe { std::env::set_var("RBXSYNC_API_KEY", "env-key-456") };
