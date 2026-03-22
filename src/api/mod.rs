@@ -31,7 +31,7 @@ impl RbxClient {
     pub fn api_key_header(&self) -> Result<&str> {
         self.api_key
             .as_deref()
-            .ok_or_else(|| anyhow::anyhow!("--api-key is required for this operation"))
+            .ok_or_else(|| anyhow::anyhow!("--api-key or RBXSYNC_API_KEY env var is required for this operation"))
     }
 
     pub async fn execute_with_retry<F, Fut>(&self, mut make_request: F) -> Result<Response>

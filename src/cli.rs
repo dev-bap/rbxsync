@@ -15,12 +15,14 @@ pub struct Cli {
     #[arg(long, global = true, default_value = "rbxsync.toml")]
     pub config: PathBuf,
 
-    /// Roblox Open Cloud API key
+    /// Roblox Open Cloud API key. Can also be set with the RBXSYNC_API_KEY environment variable
     #[arg(
         long,
         global = true,
+        env = "RBXSYNC_API_KEY",
         long_help = "\
 Roblox Open Cloud API key.
+Can also be set via the RBXSYNC_API_KEY environment variable.
 Create one at: https://create.roblox.com/dashboard/credentials
 
 Required API scopes:

@@ -274,11 +274,20 @@ Inject asset IDs into the generated file. Useful for manually managed assets or 
 
 ## Authentication
 
-rbxsync uses the [Roblox Open Cloud API](https://create.roblox.com/docs/cloud/open-cloud). Create an API key at https://create.roblox.com/dashboard/credentials and pass it via `--api-key`:
+rbxsync uses the [Roblox Open Cloud API](https://create.roblox.com/docs/cloud/open-cloud). Create an API key at https://create.roblox.com/dashboard/credentials.
+
+You can provide the key via the `--api-key` flag or the `RBXSYNC_API_KEY` environment variable:
 
 ```sh
 rbxsync sync --api-key YOUR_API_KEY
 ```
+
+```sh
+export RBXSYNC_API_KEY=YOUR_API_KEY
+rbxsync sync
+```
+
+The `--api-key` flag takes precedence over the environment variable.
 
 ### Required API scopes
 
