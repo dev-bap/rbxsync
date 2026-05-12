@@ -1,6 +1,6 @@
 [package]
 name = "rbxsync"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 description = "Declaratively manage Roblox game passes, badges, and developer products"
 license = "MIT"

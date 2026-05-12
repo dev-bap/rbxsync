@@ -5,6 +5,7 @@ use clap::{Parser, Subcommand, ValueEnum};
 #[derive(Parser)]
 #[command(
     name = "rbxsync",
+    version,
     about = "Declaratively manage Roblox game passes, badges, and developer products"
 )]
 pub struct Cli {

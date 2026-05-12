@@ -25,12 +25,6 @@ rbxsync syncs your local configuration to Roblox, tracks remote state in a lockf
 rokit add dev-bap/rbxsync
 ```
 
-### Cargo
-
-```sh
-cargo install rbxsync
-```
-
 ## Quick Start
 
 ### From an existing experience
