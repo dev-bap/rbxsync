@@ -496,7 +496,7 @@ When you run `pull` and a remote icon differs from what's in the lockfile:
 ```
 ! pass 'VIP': icon differs from remote
   Local:  icons/vip.png (blake3: a1b2c3d4e5f6...)
-  Remote: asset 129268487446043
+  Remote: asset 100200300400500
 ```
 
 Resolve with:
