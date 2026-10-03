@@ -6,9 +6,61 @@ pub mod products;
 use std::time::Duration;
 
 use anyhow::{bail, Result};
-use reqwest::{Client, Response, StatusCode};
+use reqwest::{multipart, Client, Response, StatusCode};
 
 use models::AssetDeliveryResponse;
+
+/// Which pricing automation a write enforces.
+///
+/// Roblox publishes two form fields for this, `isRegionalPricingEnabled` and
+/// `isManagedPricingEnabled`, and documents them as mutually exclusive: the
+/// regional one is marked deprecated on every write endpoint, and the
+/// developer-product one says it "should not be used when setting
+/// isManagedPricingEnabled". Managed pricing is the successor, and it bundles
+/// regional pricing with price optimization under one opt-in.
+///
+/// An enum rather than two booleans so a request that sets both cannot be
+/// built in the first place.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Pricing {
+    /// Send neither field, leaving whatever Roblox already has. That matters
+    /// because Roblox now enables managed pricing by itself on passes: a
+    /// write that always sent one of these fields would silently turn off
+    /// something nobody asked to turn off.
+    Untouched,
+    /// Send the deprecated `isRegionalPricingEnabled`.
+    Regional(bool),
+    /// Send `isManagedPricingEnabled`.
+    Managed(bool),
+}
+
+impl Pricing {
+    /// How a config's two pricing keys resolve to the one field sent.
+    ///
+    /// `managed_pricing` wins when set, because the two cannot both be sent
+    /// and it is the field Roblox still maintains. A config setting both to a
+    /// conflicting pair is refused earlier, so this never has to guess which
+    /// one the author meant.
+    pub fn from_config(regional: bool, managed: Option<bool>) -> Self {
+        match (managed, regional) {
+            (Some(v), _) => Self::Managed(v),
+            // The default. An implicit `regional_pricing = false` states no
+            // intent, so it sends nothing rather than writing the deprecated
+            // field as false on every sync.
+            (None, false) => Self::Untouched,
+            (None, true) => Self::Regional(true),
+        }
+    }
+
+    /// Add that field to a form, or leave the form alone.
+    pub fn apply(self, form: multipart::Form) -> multipart::Form {
+        match self {
+            Self::Untouched => form,
+            Self::Regional(v) => form.text("isRegionalPricingEnabled", v.to_string()),
+            Self::Managed(v) => form.text("isManagedPricingEnabled", v.to_string()),
+        }
+    }
+}
 
 pub struct RbxClient {
     pub client: Client,

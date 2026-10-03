@@ -4,7 +4,7 @@ use anyhow::{bail, Result};
 use reqwest::multipart;
 
 use super::models::{GamePass, ListGamePassesResponse};
-use super::RbxClient;
+use super::{Pricing, RbxClient};
 
 impl RbxClient {
     pub async fn list_all_game_passes(&self) -> Result<Vec<GamePass>> {
@@ -51,7 +51,7 @@ impl RbxClient {
         price: Option<u64>,
         icon_path: Option<&Path>,
         is_for_sale: bool,
-        is_regional_pricing_enabled: bool,
+        pricing: Pricing,
     ) -> Result<GamePass> {
         let api_key = self.api_key_header()?.to_string();
         let url = format!(
@@ -59,14 +59,12 @@ impl RbxClient {
             self.universe_id
         );
 
-        let mut form = multipart::Form::new()
-            .text("name", name.to_string())
-            .text("description", description.unwrap_or("").to_string())
-            .text("isForSale", is_for_sale.to_string())
-            .text(
-                "isRegionalPricingEnabled",
-                is_regional_pricing_enabled.to_string(),
-            );
+        let mut form = pricing.apply(
+            multipart::Form::new()
+                .text("name", name.to_string())
+                .text("description", description.unwrap_or("").to_string())
+                .text("isForSale", is_for_sale.to_string()),
+        );
 
         if let Some(p) = price {
             form = form.text("price", p.to_string());
@@ -105,7 +103,7 @@ impl RbxClient {
         price: Option<u64>,
         icon_path: Option<&Path>,
         is_for_sale: bool,
-        is_regional_pricing_enabled: bool,
+        pricing: Pricing,
     ) -> Result<GamePass> {
         let api_key = self.api_key_header()?.to_string();
         let url = format!(
@@ -113,14 +111,12 @@ impl RbxClient {
             self.universe_id, id
         );
 
-        let mut form = multipart::Form::new()
-            .text("name", name.to_string())
-            .text("description", description.unwrap_or("").to_string())
-            .text("isForSale", is_for_sale.to_string())
-            .text(
-                "isRegionalPricingEnabled",
-                is_regional_pricing_enabled.to_string(),
-            );
+        let mut form = pricing.apply(
+            multipart::Form::new()
+                .text("name", name.to_string())
+                .text("description", description.unwrap_or("").to_string())
+                .text("isForSale", is_for_sale.to_string()),
+        );
 
         if let Some(p) = price {
             form = form.text("price", p.to_string());

@@ -6,6 +6,15 @@ use serde::{Deserialize, Serialize};
 pub struct PriceInformation {
     #[serde(rename = "defaultPriceInRobux")]
     pub default_price_in_robux: Option<u64>,
+    /// Which pricing automations Roblox reports as active. Its enum is
+    /// `Invalid`, `PriceOptimization`, `UserFixedPrice`, `RegionalPricing`;
+    /// kept as strings so an addition on Roblox's side does not fail the
+    /// whole deserialization.
+    ///
+    /// This is the only place the remote reports regional pricing: there is
+    /// no `isRegionalPricingEnabled` in any response.
+    #[serde(rename = "enabledFeatures", default)]
+    pub enabled_features: Vec<String>,
 }
 
 // ── Game Passes ──
@@ -22,6 +31,10 @@ pub struct GamePass {
     pub icon_asset_id: Option<u64>,
     #[serde(rename = "priceInformation")]
     pub price_information: Option<PriceInformation>,
+    /// Required in the creator-facing schema, so `None` means this came from
+    /// a response that does not carry it rather than "off".
+    #[serde(rename = "isManagedPricingEnabled")]
+    pub is_managed_pricing_enabled: Option<bool>,
 }
 
 impl GamePass {
@@ -79,6 +92,9 @@ pub struct DeveloperProduct {
     pub store_page_enabled: Option<bool>,
     #[serde(rename = "priceInformation")]
     pub price_information: Option<PriceInformation>,
+    /// See `GamePass::is_managed_pricing_enabled`.
+    #[serde(rename = "isManagedPricingEnabled")]
+    pub is_managed_pricing_enabled: Option<bool>,
 }
 
 impl DeveloperProduct {

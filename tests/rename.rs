@@ -67,6 +67,7 @@ price = 499
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
         },
     );
     write_lockfile(dir.path(), &lockfile);
@@ -237,6 +238,7 @@ price = 99
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
             store_page: false,
         },
     );

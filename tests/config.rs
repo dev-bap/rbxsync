@@ -317,3 +317,71 @@ fn resolve_name_helper() {
     assert_eq!(resolve_name(Some("VIP Pass"), "vip"), "VIP Pass");
     assert_eq!(resolve_name(None, "vip"), "vip");
 }
+
+#[test]
+fn managed_pricing_is_tri_state() {
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("rbxsync.toml");
+    std::fs::write(
+        &path,
+        r#"
+[experience]
+universe_id = 12345
+
+[experience.creator]
+type = "user"
+id = 67890
+
+[passes.Silent]
+price = 499
+
+[passes.On]
+price = 499
+managed_pricing = true
+
+[passes.Off]
+price = 499
+managed_pricing = false
+"#,
+    )
+    .unwrap();
+
+    let config = Config::load(&path).unwrap();
+    // Unset is its own state: it leaves Roblox's own setting alone, which is
+    // not what `false` does.
+    assert_eq!(config.passes["Silent"].managed_pricing, None);
+    assert_eq!(config.passes["On"].managed_pricing, Some(true));
+    assert_eq!(config.passes["Off"].managed_pricing, Some(false));
+}
+
+#[test]
+fn both_pricing_keys_at_once_is_refused() {
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("rbxsync.toml");
+    std::fs::write(
+        &path,
+        r#"
+[experience]
+universe_id = 12345
+
+[experience.creator]
+type = "user"
+id = 67890
+
+[passes.VIP]
+price = 499
+regional_pricing = true
+managed_pricing = true
+"#,
+    )
+    .unwrap();
+
+    // Roblox accepts one of the two per write, so no request honours this
+    // config. Refused at load, before any command can send anything.
+    let err = Config::load(&path).unwrap_err().to_string();
+    assert!(err.contains("cannot both be set"), "{err}");
+    assert!(
+        err.contains("VIP"),
+        "the message must name the resource: {err}"
+    );
+}

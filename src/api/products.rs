@@ -4,7 +4,7 @@ use anyhow::{bail, Result};
 use reqwest::multipart;
 
 use super::models::{DeveloperProduct, ListDeveloperProductsResponse};
-use super::RbxClient;
+use super::{Pricing, RbxClient};
 
 impl RbxClient {
     pub async fn list_all_developer_products(&self) -> Result<Vec<DeveloperProduct>> {
@@ -51,7 +51,7 @@ impl RbxClient {
         price: u64,
         icon_path: Option<&Path>,
         is_for_sale: bool,
-        is_regional_pricing_enabled: bool,
+        pricing: Pricing,
     ) -> Result<DeveloperProduct> {
         let api_key = self.api_key_header()?.to_string();
         let url = format!(
@@ -59,15 +59,13 @@ impl RbxClient {
             self.universe_id
         );
 
-        let mut form = multipart::Form::new()
-            .text("name", name.to_string())
-            .text("description", description.unwrap_or("").to_string())
-            .text("isForSale", is_for_sale.to_string())
-            .text(
-                "isRegionalPricingEnabled",
-                is_regional_pricing_enabled.to_string(),
-            )
-            .text("price", price.to_string());
+        let mut form = pricing.apply(
+            multipart::Form::new()
+                .text("name", name.to_string())
+                .text("description", description.unwrap_or("").to_string())
+                .text("isForSale", is_for_sale.to_string())
+                .text("price", price.to_string()),
+        );
 
         if let Some(path) = icon_path {
             let bytes = crate::icon::process_icon(path, self.bleed)?;
@@ -103,7 +101,7 @@ impl RbxClient {
         price: u64,
         icon_path: Option<&Path>,
         is_for_sale: bool,
-        is_regional_pricing_enabled: bool,
+        pricing: Pricing,
         store_page_enabled: bool,
     ) -> Result<DeveloperProduct> {
         let api_key = self.api_key_header()?.to_string();
@@ -118,16 +116,14 @@ impl RbxClient {
         // storePageEnabled=false is sent in the same request.
         // Workaround: first remove from store page, then set off sale.
         if !is_for_sale {
-            let disable_store_form = multipart::Form::new()
-                .text("name", name.to_string())
-                .text("description", description.unwrap_or("").to_string())
-                .text("isForSale", "true")
-                .text(
-                    "isRegionalPricingEnabled",
-                    is_regional_pricing_enabled.to_string(),
-                )
-                .text("storePageEnabled", "false")
-                .text("price", price.to_string());
+            let disable_store_form = pricing.apply(
+                multipart::Form::new()
+                    .text("name", name.to_string())
+                    .text("description", description.unwrap_or("").to_string())
+                    .text("isForSale", "true")
+                    .text("storePageEnabled", "false")
+                    .text("price", price.to_string()),
+            );
 
             let resp = self
                 .client
@@ -145,16 +141,14 @@ impl RbxClient {
 
         let effective_store_page = store_page_enabled && is_for_sale;
 
-        let mut form = multipart::Form::new()
-            .text("name", name.to_string())
-            .text("description", description.unwrap_or("").to_string())
-            .text("isForSale", is_for_sale.to_string())
-            .text(
-                "isRegionalPricingEnabled",
-                is_regional_pricing_enabled.to_string(),
-            )
-            .text("storePageEnabled", effective_store_page.to_string())
-            .text("price", price.to_string());
+        let mut form = pricing.apply(
+            multipart::Form::new()
+                .text("name", name.to_string())
+                .text("description", description.unwrap_or("").to_string())
+                .text("isForSale", is_for_sale.to_string())
+                .text("storePageEnabled", effective_store_page.to_string())
+                .text("price", price.to_string()),
+        );
 
         if let Some(path) = icon_path {
             let bytes = crate::icon::process_icon(path, self.bleed)?;

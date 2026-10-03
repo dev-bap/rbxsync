@@ -81,6 +81,8 @@ Pull remote state into the config and lockfile.
 
 Remote is the source of truth: remote-visible fields (`name`, `price`, `description`, etc.) are updated in the config while config-only fields (`icon`, `path`, `regional_pricing`) are preserved. New remote resources are added to the config.
 
+`managed_pricing` is recorded in the lockfile from what Roblox reports, but never written into the config. Roblox turns managed pricing on by itself for passes, so importing that as a declared intent would commit your config to a setting you never chose. See [Pricing](#pricing).
+
 | Flag | Description |
 | --- | --- |
 | `--dry-run` | Show what remote state differs without writing anything |
@@ -232,7 +234,8 @@ Inject asset IDs into the generated file. Useful for manually managed assets or 
 | `description` | `string` | No | Pass description |
 | `icon` | `string` | No | Path to icon file |
 | `for_sale` | `bool` | No | Whether the pass is for sale (default: `true`) |
-| `regional_pricing` | `bool` | No | Enable regional pricing (default: `false`) |
+| `managed_pricing` | `bool` | No | Enable Roblox's managed pricing. **No default**: unset leaves whatever Roblox has, which is not the same as `false`. See [Pricing](#pricing) |
+| `regional_pricing` | `bool` | No | Deprecated by Roblox, superseded by `managed_pricing` (default: `false`). See [Pricing](#pricing) |
 | `path` | `string` | No | Override the codegen path for this item |
 
 </details>
@@ -260,11 +263,47 @@ Inject asset IDs into the generated file. Useful for manually managed assets or 
 | `description` | `string` | No | Product description |
 | `icon` | `string` | No | Path to icon file |
 | `for_sale` | `bool` | No | Whether the product is for sale (default: `true`) |
-| `regional_pricing` | `bool` | No | Enable regional pricing (default: `false`) |
+| `managed_pricing` | `bool` | No | Enable Roblox's managed pricing. **No default**. A product also needs scripted prices and `GetUsersPriceLevelsAsync`. See [Pricing](#pricing) |
+| `regional_pricing` | `bool` | No | Deprecated by Roblox, superseded by `managed_pricing` (default: `false`). See [Pricing](#pricing) |
 | `store_page` | `bool` | No | Show on the store page (default: `false`) |
 | `path` | `string` | No | Override the codegen path for this item |
 
 </details>
+
+## Pricing
+
+Roblox has two settings here, and only one of them is current.
+
+`managed_pricing` is the live one. It is Roblox's own opt-in, and it covers two automations at once: **regional pricing**, which adjusts the price by economic region down to a floor of 30% of your default, and **price optimization**, which tests price points against your experience's demand data.
+
+`regional_pricing` is the older, narrower setting. Roblox marks it deprecated on every write endpoint and accepts only one of the two per request, so setting both is refused when the config loads:
+
+```
+Pass 'VIP': regional_pricing and managed_pricing cannot both be set.
+```
+
+### Unset is a third state, not `false`
+
+`managed_pricing` has no default, which makes it the only boolean in this config that can be genuinely absent:
+
+| In the file | What a sync sends |
+| --- | --- |
+| nothing | neither field: whatever Roblox has stays |
+| `managed_pricing = true` | `isManagedPricingEnabled=true` |
+| `managed_pricing = false` | `isManagedPricingEnabled=false` |
+| `regional_pricing = true` | `isRegionalPricingEnabled=true` (deprecated) |
+
+That distinction is load-bearing. Roblox turns managed pricing on by itself for passes, so a config that says nothing must send nothing: a `false` default would quietly undo that on every run, for every pass, in every project that never mentioned pricing at all.
+
+For the same reason, a config silent on `managed_pricing` reports no diff however the lockfile reads. Stating nothing means delegating the choice, not asking for it off.
+
+### What cannot be set from here
+
+Whether an item ends up on price optimization or keeps your fixed price is **not** in the API. The write side is one boolean; the split lives in the Creator Hub, per item.
+
+Measured once, on one developer product: before the opt-in Roblox reported no active automation, and setting `managed_pricing = true` turned on regional pricing alone, leaving the price fixed. One item is not a rule, and eligibility is Roblox's call.
+
+A developer product also needs dynamically scripted prices and a `GetUsersPriceLevelsAsync` call in the experience before managed pricing does anything useful, and neither of those is something this tool can check for you.
 
 ## Authentication
 

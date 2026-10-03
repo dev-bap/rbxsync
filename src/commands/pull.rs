@@ -96,6 +96,10 @@ pub async fn run(cli: &Cli, dry_run: bool, accept_remote: bool, accept_local: bo
                 icon_hash: None,
                 for_sale: pass.is_for_sale.unwrap_or(true),
                 regional_pricing: false,
+                // Managed pricing takes the measured value: a config that
+                // declares nothing raises no diff, so there is nothing to go
+                // phantom here.
+                managed_pricing: pass.is_managed_pricing_enabled,
             },
         );
     }
@@ -200,6 +204,7 @@ pub async fn run(cli: &Cli, dry_run: bool, accept_remote: bool, accept_local: bo
                 icon_hash: None,
                 for_sale: product.is_for_sale.unwrap_or(true),
                 regional_pricing: false,
+                managed_pricing: product.is_managed_pricing_enabled,
                 store_page: product.store_page_enabled.unwrap_or(false),
             },
         );
@@ -509,6 +514,10 @@ fn update_pass_config(
                     icon: None,
                     for_sale: lock.for_sale,
                     regional_pricing: false,
+                    // Not imported from the lock, the same way
+                    // `regional_pricing` is not: a pulled config states no
+                    // pricing intent of its own.
+                    managed_pricing: None,
                     path: None,
                 },
             );
@@ -630,6 +639,8 @@ fn update_product_config(
                     icon: None,
                     for_sale: lock.for_sale,
                     regional_pricing: false,
+                    // See the pass above.
+                    managed_pricing: None,
                     store_page: lock.store_page,
                     path: None,
                 },

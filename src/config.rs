@@ -152,8 +152,19 @@ pub struct PassConfig {
     pub icon: Option<PathBuf>,
     #[serde(default = "default_true")]
     pub for_sale: bool,
+    /// Deprecated by Roblox in favour of `managed_pricing`, which supersedes
+    /// it. Kept because it is already in released configs.
     #[serde(default)]
     pub regional_pricing: bool,
+    /// Roblox's successor to `regional_pricing`: it bundles regional pricing
+    /// with price optimization under one opt-in.
+    ///
+    /// Tri-state on purpose. Roblox enables managed pricing by itself on
+    /// passes, so a plain `false` default would make every sync turn off
+    /// something nobody asked to turn off. Unset sends no field at all and
+    /// leaves whatever Roblox has.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub managed_pricing: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub path: Option<String>,
 }
@@ -197,8 +208,15 @@ pub struct ProductConfig {
     pub icon: Option<PathBuf>,
     #[serde(default = "default_true")]
     pub for_sale: bool,
+    /// Deprecated by Roblox in favour of `managed_pricing`. See `PassConfig`.
     #[serde(default)]
     pub regional_pricing: bool,
+    /// See `PassConfig::managed_pricing`. Unlike a pass, a developer product
+    /// is not opted in by Roblox on its own: enabling it also requires
+    /// dynamically scripted prices and a `GetUsersPriceLevelsAsync` call in
+    /// the experience, which this tool cannot check for you.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub managed_pricing: Option<bool>,
     #[serde(default)]
     pub store_page: bool,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -221,8 +239,44 @@ impl Config {
 
         let config_dir = path.parent().unwrap_or(Path::new("."));
         config.validate_icon_paths(config_dir)?;
+        config.validate_pricing()?;
 
         Ok(config)
+    }
+
+    /// Refuse a resource that asks for both pricing automations at once.
+    ///
+    /// Roblox accepts one field or the other per write, never both, so there
+    /// is no request that honours such a config. Refusing beats picking a
+    /// winner silently: the two mean different things, and only the author
+    /// knows which one was meant.
+    fn validate_pricing(&self) -> Result<()> {
+        // The first conflict is enough: they all need the same one-line edit,
+        // and listing every one would not tell the author anything more.
+        let first_conflict = self
+            .passes
+            .iter()
+            .filter(|(_, p)| p.regional_pricing && p.managed_pricing.is_some())
+            .map(|(name, _)| ("Pass", name))
+            .chain(
+                self.products
+                    .iter()
+                    .filter(|(_, p)| p.regional_pricing && p.managed_pricing.is_some())
+                    .map(|(name, _)| ("Product", name)),
+            )
+            .next();
+
+        if let Some((kind, name)) = first_conflict {
+            bail!(
+                "{} '{}': regional_pricing and managed_pricing cannot both be set. \
+                 Roblox accepts one of the two per write, and managed_pricing supersedes \
+                 regional_pricing (it bundles regional pricing with price optimization). \
+                 Drop regional_pricing.",
+                kind,
+                name
+            );
+        }
+        Ok(())
     }
 
     fn validate_icon_paths(&self, config_dir: &Path) -> Result<()> {
@@ -304,7 +358,9 @@ id = 0                 # Your Roblox user or group ID
 # description = "VIP access"
 # icon = "icons/vip.png"
 # for_sale = true          # optional — defaults to true
-# regional_pricing = false # optional — defaults to false
+# managed_pricing = true   # optional: NO default. Unset leaves Roblox's own
+#                          # setting alone, which is not the same as false.
+# regional_pricing = false # deprecated by Roblox, superseded by the above
 # path = "shop.specials"   # optional — override codegen path
 
 # Badges
@@ -322,7 +378,9 @@ id = 0                 # Your Roblox user or group ID
 # description = "100 coins"
 # icon = "icons/coins.png"
 # for_sale = true          # optional — defaults to true
-# regional_pricing = false # optional — defaults to false
+# managed_pricing = true   # optional: NO default. A product also needs
+#                          # scripted prices and GetUsersPriceLevelsAsync.
+# regional_pricing = false # deprecated by Roblox, superseded by the above
 # store_page = false       # optional — defaults to false
 # path = "shop.specials"   # optional — override codegen path
 "#

@@ -3,7 +3,7 @@ use std::path::Path;
 use anyhow::Result;
 use colored::Colorize;
 
-use crate::api::RbxClient;
+use crate::api::{Pricing, RbxClient};
 use crate::cli::{Cli, ResourceType};
 use crate::codegen;
 use crate::config::{resolve_name, Config};
@@ -98,7 +98,10 @@ pub async fn run(
                             pass_cfg.price,
                             icon_path.as_deref(),
                             pass_cfg.for_sale,
-                            pass_cfg.regional_pricing,
+                            Pricing::from_config(
+                                pass_cfg.regional_pricing,
+                                pass_cfg.managed_pricing,
+                            ),
                         )
                         .await?;
 
@@ -116,6 +119,10 @@ pub async fn run(
                             icon_hash,
                             for_sale: pass_cfg.for_sale,
                             regional_pricing: pass_cfg.regional_pricing,
+                            // What Roblox reports back, not what was asked:
+                            // a pass Roblox opted in by itself records as on
+                            // even when the config is silent.
+                            managed_pricing: result.is_managed_pricing_enabled,
                         },
                     );
                     lockfile.save(&lockfile_path)?;
@@ -147,7 +154,10 @@ pub async fn run(
                             pass_cfg.price,
                             send_icon,
                             pass_cfg.for_sale,
-                            pass_cfg.regional_pricing,
+                            Pricing::from_config(
+                                pass_cfg.regional_pricing,
+                                pass_cfg.managed_pricing,
+                            ),
                         )
                         .await?;
                     println!(" {}", "done".green());
@@ -163,6 +173,10 @@ pub async fn run(
                             icon_hash: icon_hash.or(lock.icon_hash.clone()),
                             for_sale: pass_cfg.for_sale,
                             regional_pricing: pass_cfg.regional_pricing,
+                            // What Roblox reports back, not what was asked:
+                            // a pass Roblox opted in by itself records as on
+                            // even when the config is silent.
+                            managed_pricing: result.is_managed_pricing_enabled,
                         },
                     );
                     lockfile.save(&lockfile_path)?;
@@ -300,7 +314,10 @@ pub async fn run(
                             product_cfg.price,
                             icon_path.as_deref(),
                             product_cfg.for_sale,
-                            product_cfg.regional_pricing,
+                            Pricing::from_config(
+                                product_cfg.regional_pricing,
+                                product_cfg.managed_pricing,
+                            ),
                         )
                         .await?;
 
@@ -318,6 +335,7 @@ pub async fn run(
                             icon_hash,
                             for_sale: product_cfg.for_sale,
                             regional_pricing: product_cfg.regional_pricing,
+                            managed_pricing: result.is_managed_pricing_enabled,
                             store_page: product_cfg.store_page,
                         },
                     );
@@ -350,7 +368,10 @@ pub async fn run(
                             product_cfg.price,
                             send_icon,
                             product_cfg.for_sale,
-                            product_cfg.regional_pricing,
+                            Pricing::from_config(
+                                product_cfg.regional_pricing,
+                                product_cfg.managed_pricing,
+                            ),
                             product_cfg.store_page,
                         )
                         .await?;
@@ -367,6 +388,7 @@ pub async fn run(
                             icon_hash: icon_hash.or(lock.icon_hash.clone()),
                             for_sale: product_cfg.for_sale,
                             regional_pricing: product_cfg.regional_pricing,
+                            managed_pricing: result.is_managed_pricing_enabled,
                             store_page: product_cfg.store_page,
                         },
                     );

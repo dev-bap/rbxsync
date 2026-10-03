@@ -42,6 +42,7 @@ fn new_pass_creates() {
                 icon: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 path: None,
             },
         )]),
@@ -67,6 +68,7 @@ fn same_pass_skips() {
                 icon: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 path: None,
             },
         )]),
@@ -85,6 +87,7 @@ fn same_pass_skips() {
                 icon_hash: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
             },
         )]),
         ..Default::default()
@@ -107,6 +110,7 @@ fn changed_pass_price_updates() {
                 icon: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 path: None,
             },
         )]),
@@ -125,6 +129,7 @@ fn changed_pass_price_updates() {
                 icon_hash: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
             },
         )]),
         ..Default::default()
@@ -152,6 +157,7 @@ fn changed_pass_description_updates() {
                 icon: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 path: None,
             },
         )]),
@@ -170,6 +176,7 @@ fn changed_pass_description_updates() {
                 icon_hash: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
             },
         )]),
         ..Default::default()
@@ -201,6 +208,7 @@ fn changed_pass_icon_updates() {
                 icon: Some("icon.png".into()),
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 path: None,
             },
         )]),
@@ -219,6 +227,7 @@ fn changed_pass_icon_updates() {
                 icon_hash: Some("oldhash00000".into()),
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
             },
         )]),
         ..Default::default()
@@ -248,6 +257,7 @@ fn pass_in_lockfile_not_in_config_warns() {
                 icon_hash: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
             },
         )]),
         ..Default::default()
@@ -271,6 +281,7 @@ fn has_changes_all_skip() {
                 icon: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 path: None,
             },
         )]),
@@ -289,6 +300,7 @@ fn has_changes_all_skip() {
                 icon_hash: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
             },
         )]),
         ..Default::default()
@@ -310,6 +322,7 @@ fn has_changes_with_create() {
                 icon: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 path: None,
             },
         )]),
@@ -335,6 +348,7 @@ fn summary_counts() {
                     icon: None,
                     for_sale: true,
                     regional_pricing: false,
+                    managed_pricing: None,
                     path: None,
                 },
             ),
@@ -347,6 +361,7 @@ fn summary_counts() {
                     icon: None,
                     for_sale: true,
                     regional_pricing: false,
+                    managed_pricing: None,
                     path: None,
                 },
             ),
@@ -359,6 +374,7 @@ fn summary_counts() {
                     icon: None,
                     for_sale: true,
                     regional_pricing: false,
+                    managed_pricing: None,
                     path: None,
                 },
             ),
@@ -379,6 +395,7 @@ fn summary_counts() {
                     icon_hash: None,
                     for_sale: true,
                     regional_pricing: false,
+                    managed_pricing: None,
                 },
             ),
             (
@@ -392,6 +409,7 @@ fn summary_counts() {
                     icon_hash: None,
                     for_sale: true,
                     regional_pricing: false,
+                    managed_pricing: None,
                 },
             ),
         ]),
@@ -569,6 +587,7 @@ fn new_product_creates() {
                 icon: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 store_page: false,
                 path: None,
             },
@@ -595,6 +614,7 @@ fn product_price_change_updates() {
                 icon: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 store_page: false,
                 path: None,
             },
@@ -612,6 +632,7 @@ fn product_price_change_updates() {
                 icon_hash: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 store_page: false,
             },
         )]),
@@ -644,6 +665,7 @@ fn product_icon_change_updates() {
                 icon: Some("product.png".into()),
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 store_page: false,
                 path: None,
             },
@@ -661,6 +683,7 @@ fn product_icon_change_updates() {
                 icon_hash: Some("oldhash".into()),
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 store_page: false,
             },
         )]),
@@ -690,6 +713,7 @@ fn pass_name_change_updates() {
                 icon: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 path: None,
             },
         )]),
@@ -708,6 +732,7 @@ fn pass_name_change_updates() {
                 icon_hash: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
             },
         )]),
         ..Default::default()
@@ -736,6 +761,7 @@ fn pass_for_sale_change_updates() {
                 icon: None,
                 for_sale: false,
                 regional_pricing: false,
+                managed_pricing: None,
                 path: None,
             },
         )]),
@@ -754,6 +780,7 @@ fn pass_for_sale_change_updates() {
                 icon_hash: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
             },
         )]),
         ..Default::default()
@@ -780,6 +807,7 @@ fn pass_regional_pricing_change_updates() {
                 icon: None,
                 for_sale: true,
                 regional_pricing: true,
+                managed_pricing: None,
                 path: None,
             },
         )]),
@@ -798,6 +826,7 @@ fn pass_regional_pricing_change_updates() {
                 icon_hash: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
             },
         )]),
         ..Default::default()
@@ -868,6 +897,7 @@ fn product_for_sale_change_updates() {
                 icon: None,
                 for_sale: false,
                 regional_pricing: false,
+                managed_pricing: None,
                 store_page: false,
                 path: None,
             },
@@ -885,6 +915,7 @@ fn product_for_sale_change_updates() {
                 icon_hash: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 store_page: false,
             },
         )]),
@@ -914,6 +945,7 @@ fn product_store_page_change_updates() {
                 icon: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 store_page: true,
                 path: None,
             },
@@ -931,6 +963,7 @@ fn product_store_page_change_updates() {
                 icon_hash: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 store_page: false,
             },
         )]),
@@ -941,6 +974,109 @@ fn product_store_page_change_updates() {
     match &plan.products[0].action {
         Action::Update { changes } => {
             assert!(changes.iter().any(|c| c.field == "store_page"));
+        }
+        other => panic!("expected Update, got {:?}", other),
+    }
+}
+
+/// Roblox turns managed pricing on by itself, so the lockfile routinely
+/// records `Some(true)` for a pass whose config says nothing about it. That
+/// must not read as a change: a sync would then offer, on every run, to undo
+/// something the developer never asked to control.
+#[test]
+fn a_config_silent_on_managed_pricing_ignores_whatever_the_lock_recorded() {
+    let config = make_config(
+        BTreeMap::from([(
+            "VIP".into(),
+            PassConfig {
+                name: None,
+                price: Some(499),
+                description: None,
+                icon: None,
+                for_sale: true,
+                regional_pricing: false,
+                managed_pricing: None,
+                path: None,
+            },
+        )]),
+        BTreeMap::new(),
+        BTreeMap::new(),
+    );
+    let lockfile = Lockfile {
+        passes: BTreeMap::from([(
+            "VIP".into(),
+            PassLock {
+                id: 1,
+                name: "VIP".into(),
+                price: Some(499),
+                description: None,
+                icon_asset_id: None,
+                icon_hash: None,
+                for_sale: true,
+                regional_pricing: false,
+                managed_pricing: Some(true),
+            },
+        )]),
+        ..Default::default()
+    };
+
+    let plan = build_sync_plan(&config, &lockfile, Path::new(".")).unwrap();
+    assert!(
+        matches!(plan.passes[0].action, Action::Skip),
+        "expected Skip, got {:?}",
+        plan.passes[0].action
+    );
+}
+
+/// Once the config states an intent, a lockfile that never recorded the field
+/// counts as not matching it, so the first sync writes it. `unset` rather than
+/// `false` in the reported change, because the two are different states.
+#[test]
+fn asking_for_managed_pricing_against_an_unrecorded_lock_updates() {
+    let config = make_config(
+        BTreeMap::from([(
+            "VIP".into(),
+            PassConfig {
+                name: None,
+                price: Some(499),
+                description: None,
+                icon: None,
+                for_sale: true,
+                regional_pricing: false,
+                managed_pricing: Some(true),
+                path: None,
+            },
+        )]),
+        BTreeMap::new(),
+        BTreeMap::new(),
+    );
+    let lockfile = Lockfile {
+        passes: BTreeMap::from([(
+            "VIP".into(),
+            PassLock {
+                id: 1,
+                name: "VIP".into(),
+                price: Some(499),
+                description: None,
+                icon_asset_id: None,
+                icon_hash: None,
+                for_sale: true,
+                regional_pricing: false,
+                managed_pricing: None,
+            },
+        )]),
+        ..Default::default()
+    };
+
+    let plan = build_sync_plan(&config, &lockfile, Path::new(".")).unwrap();
+    match &plan.passes[0].action {
+        Action::Update { changes } => {
+            let change = changes
+                .iter()
+                .find(|c| c.field == "managed_pricing")
+                .expect("managed_pricing must be reported");
+            assert_eq!(change.old, "unset");
+            assert_eq!(change.new, "true");
         }
         other => panic!("expected Update, got {:?}", other),
     }

@@ -31,6 +31,12 @@ pub struct PassLock {
     pub for_sale: bool,
     #[serde(default)]
     pub regional_pricing: bool,
+    /// Absent in every lockfile written before managed pricing existed,
+    /// which is why it is optional rather than defaulted to `false`: "never
+    /// recorded" and "recorded as off" are different states, and only the
+    /// second one justifies a write.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub managed_pricing: Option<bool>,
 }
 
 #[derive(Debug, Clone, PartialEq, Deserialize, Serialize)]
@@ -55,6 +61,9 @@ pub struct ProductLock {
     pub for_sale: bool,
     #[serde(default)]
     pub regional_pricing: bool,
+    /// See `PassLock::managed_pricing`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub managed_pricing: Option<bool>,
     #[serde(default)]
     pub store_page: bool,
 }

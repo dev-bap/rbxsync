@@ -176,6 +176,21 @@ fn diff_passes(
                         new: pass_cfg.regional_pricing.to_string(),
                     });
                 }
+                // Only when the config states an intent. Roblox turns managed
+                // pricing on by itself, so a config silent on it would
+                // otherwise offer to undo that on every single run.
+                if let Some(want) = pass_cfg.managed_pricing {
+                    if lock.managed_pricing != Some(want) {
+                        changes.push(FieldChange {
+                            field: "managed_pricing".to_string(),
+                            old: match lock.managed_pricing {
+                                Some(v) => v.to_string(),
+                                None => "unset".to_string(),
+                            },
+                            new: want.to_string(),
+                        });
+                    }
+                }
 
                 if let Some(icon) = &pass_cfg.icon {
                     let full_path = config_dir.join(icon);
@@ -338,6 +353,19 @@ fn diff_products(
                         old: lock.regional_pricing.to_string(),
                         new: product_cfg.regional_pricing.to_string(),
                     });
+                }
+                // See the pass loop above.
+                if let Some(want) = product_cfg.managed_pricing {
+                    if lock.managed_pricing != Some(want) {
+                        changes.push(FieldChange {
+                            field: "managed_pricing".to_string(),
+                            old: match lock.managed_pricing {
+                                Some(v) => v.to_string(),
+                                None => "unset".to_string(),
+                            },
+                            new: want.to_string(),
+                        });
+                    }
                 }
                 if product_cfg.store_page != lock.store_page {
                     changes.push(FieldChange {

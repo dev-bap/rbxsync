@@ -21,6 +21,7 @@ fn round_trip() {
                 icon_hash: Some("abc123".into()),
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
             },
         )]),
         badges: BTreeMap::from([(
@@ -45,6 +46,7 @@ fn round_trip() {
                 icon_hash: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 store_page: true,
             },
         )]),

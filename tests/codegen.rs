@@ -26,6 +26,7 @@ fn generate_luau_with_all_sections() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
         },
     );
     lockfile.badges.insert(
@@ -50,6 +51,7 @@ fn generate_luau_with_all_sections() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
             store_page: false,
         },
     );
@@ -102,6 +104,7 @@ fn generate_luau_escaped_keys() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
         },
     );
     lockfile.passes.insert(
@@ -115,6 +118,7 @@ fn generate_luau_escaped_keys() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
         },
     );
     lockfile.passes.insert(
@@ -128,6 +132,7 @@ fn generate_luau_escaped_keys() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
         },
     );
 
@@ -267,6 +272,7 @@ fn generate_luau_with_section_paths() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
         },
     );
     lockfile.products.insert(
@@ -280,6 +286,7 @@ fn generate_luau_with_section_paths() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
             store_page: false,
         },
     );
@@ -299,6 +306,7 @@ fn generate_luau_with_section_paths() {
                 icon: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 path: None,
             },
         )]),
@@ -312,6 +320,7 @@ fn generate_luau_with_section_paths() {
                 icon: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 store_page: false,
                 path: None,
             },
@@ -350,6 +359,7 @@ fn generate_luau_with_item_path_override() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
             store_page: false,
         },
     );
@@ -364,6 +374,7 @@ fn generate_luau_with_item_path_override() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
             store_page: false,
         },
     );
@@ -386,6 +397,7 @@ fn generate_luau_with_item_path_override() {
                     icon: None,
                     for_sale: true,
                     regional_pricing: false,
+                    managed_pricing: None,
                     store_page: false,
                     path: Some("shop.specials".into()),
                 },
@@ -399,6 +411,7 @@ fn generate_luau_with_item_path_override() {
                     icon: None,
                     for_sale: true,
                     regional_pricing: false,
+                    managed_pricing: None,
                     store_page: false,
                     path: None,
                 },
@@ -437,6 +450,7 @@ fn generate_luau_nested_path_merging() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
         },
     );
     lockfile.products.insert(
@@ -450,6 +464,7 @@ fn generate_luau_nested_path_merging() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
             store_page: false,
         },
     );
@@ -470,6 +485,7 @@ fn generate_luau_nested_path_merging() {
                 icon: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 path: None,
             },
         )]),
@@ -483,6 +499,7 @@ fn generate_luau_nested_path_merging() {
                 icon: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 store_page: false,
                 path: None,
             },
@@ -525,6 +542,7 @@ fn generate_luau_flat_default() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
         },
     );
     lockfile.products.insert(
@@ -538,6 +556,7 @@ fn generate_luau_flat_default() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
             store_page: false,
         },
     );
@@ -570,6 +589,7 @@ fn generate_typescript_flat_default() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
         },
     );
 
@@ -597,6 +617,7 @@ fn generate_luau_flat_with_custom_paths() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
         },
     );
     lockfile.products.insert(
@@ -610,6 +631,7 @@ fn generate_luau_flat_with_custom_paths() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
             store_page: false,
         },
     );
@@ -624,6 +646,7 @@ fn generate_luau_flat_with_custom_paths() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
             store_page: false,
         },
     );
@@ -644,6 +667,7 @@ fn generate_luau_flat_with_custom_paths() {
                 icon: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 path: None,
             },
         )]),
@@ -658,6 +682,7 @@ fn generate_luau_flat_with_custom_paths() {
                     icon: None,
                     for_sale: true,
                     regional_pricing: false,
+                    managed_pricing: None,
                     store_page: false,
                     path: None,
                 },
@@ -671,6 +696,7 @@ fn generate_luau_flat_with_custom_paths() {
                     icon: None,
                     for_sale: true,
                     regional_pricing: false,
+                    managed_pricing: None,
                     store_page: false,
                     path: Some("shop.specials".into()),
                 },
@@ -793,6 +819,7 @@ fn generate_luau_extra_mixed_with_synced() {
             icon_hash: None,
             for_sale: true,
             regional_pricing: false,
+            managed_pricing: None,
         },
     );
 
@@ -809,6 +836,7 @@ fn generate_luau_extra_mixed_with_synced() {
                 icon: None,
                 for_sale: true,
                 regional_pricing: false,
+                managed_pricing: None,
                 path: None,
             },
         )]),
