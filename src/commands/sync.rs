@@ -70,7 +70,7 @@ pub async fn run(
     println!("\n{}", plan.summary());
 
     if dry_run {
-        println!("\n{} Dry run — no changes applied.", "ℹ".blue());
+        println!("\n{} Dry run: no changes applied.", "ℹ".blue());
         return Ok(());
     }
 

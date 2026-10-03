@@ -334,15 +334,15 @@ id = 0                 # Your Roblox user or group ID
 # output = "src/shared/GameIds.luau"
 # typescript = false            # Also generate a .d.ts file
 # style = "flat"               # "flat" (default) or "nested"
-#                              # flat:   GameIds["passes.VIP"] — path-like keys
-#                              # nested: GameIds.passes.VIP   — nested tables
+#                              # flat:   GameIds["passes.VIP"]: path-like keys
+#                              # nested: GameIds.passes.VIP  : nested tables
 #
-# Custom paths — dot-separated, used as prefix (flat) or nesting (nested)
+# Custom paths: dot-separated, used as prefix (flat) or nesting (nested)
 # [codegen.paths]
 # passes = "player.vips"       # passes go under player.vips
 # products = "shop.items"      # products go under shop.items
 #
-# Extra entries — pre-existing assets injected into the generated file
+# Extra entries: pre-existing assets injected into the generated file
 # [codegen.extra]
 # "passes.legacy_vip" = 1234567   # dot path = asset id
 
@@ -353,36 +353,36 @@ id = 0                 # Your Roblox user or group ID
 
 # Game Passes
 # [passes.VIP]
-# name = "VIP Pass"       # optional — defaults to "VIP"
+# name = "VIP Pass"       # optional: defaults to "VIP"
 # price = 499
 # description = "VIP access"
 # icon = "icons/vip.png"
-# for_sale = true          # optional — defaults to true
+# for_sale = true          # optional: defaults to true
 # managed_pricing = true   # optional: NO default. Unset leaves Roblox's own
 #                          # setting alone, which is not the same as false.
 # regional_pricing = false # deprecated by Roblox, superseded by the above
-# path = "shop.specials"   # optional — override codegen path
+# path = "shop.specials"   # optional: override codegen path
 
 # Badges
 # [badges.Welcome]
-# name = "Welcome Badge"  # optional — defaults to "Welcome"
+# name = "Welcome Badge"  # optional: defaults to "Welcome"
 # description = "Welcome to the game!"
 # icon = "icons/welcome.png"
 # enabled = true
-# path = "rewards"          # optional — override codegen path
+# path = "rewards"          # optional: override codegen path
 
 # Developer Products
 # [products.Coins100]
-# name = "100 Coins"      # optional — defaults to "Coins100"
+# name = "100 Coins"      # optional: defaults to "Coins100"
 # price = 99
 # description = "100 coins"
 # icon = "icons/coins.png"
-# for_sale = true          # optional — defaults to true
+# for_sale = true          # optional: defaults to true
 # managed_pricing = true   # optional: NO default. A product also needs
 #                          # scripted prices and GetUsersPriceLevelsAsync.
 # regional_pricing = false # deprecated by Roblox, superseded by the above
-# store_page = false       # optional — defaults to false
-# path = "shop.specials"   # optional — override codegen path
+# store_page = false       # optional: defaults to false
+# path = "shop.specials"   # optional: override codegen path
 "#
         .to_string()
     }

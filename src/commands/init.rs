@@ -55,7 +55,7 @@ pub async fn run(cli: &Cli, from_remote: bool, universe_id: Option<u64>) -> Resu
 
         if passes.contains_key(name) {
             println!(
-                "{} Duplicate pass name '{}' (id: {}) — skipping (only the first is kept)",
+                "{} Duplicate pass name '{}' (id: {}), skipping (only the first is kept)",
                 "!".yellow(),
                 name,
                 id
@@ -120,7 +120,7 @@ pub async fn run(cli: &Cli, from_remote: bool, universe_id: Option<u64>) -> Resu
 
         if badges.contains_key(name) {
             println!(
-                "{} Duplicate badge name '{}' (id: {}) — skipping (only the first is kept)",
+                "{} Duplicate badge name '{}' (id: {}), skipping (only the first is kept)",
                 "!".yellow(),
                 name,
                 id
@@ -171,7 +171,7 @@ pub async fn run(cli: &Cli, from_remote: bool, universe_id: Option<u64>) -> Resu
 
         if products.contains_key(name) {
             println!(
-                "{} Duplicate product name '{}' (id: {}) — skipping (only the first is kept)",
+                "{} Duplicate product name '{}' (id: {}), skipping (only the first is kept)",
                 "!".yellow(),
                 name,
                 id

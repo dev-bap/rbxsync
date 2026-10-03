@@ -121,7 +121,7 @@ fn insert_into_tree(tree: &mut CodegenTree, segments: &[&str], key: &str, id: u6
             insert_into_tree(children, &segments[1..], key, id);
         }
         CodegenNode::Leaf(_) => {
-            // A leaf already exists at this segment — promote it to a branch.
+            // A leaf already exists at this segment: promote it to a branch.
             // This shouldn't happen with well-formed configs, but handle gracefully.
             let mut children = BTreeMap::new();
             insert_into_tree(&mut children, &segments[1..], key, id);
@@ -184,7 +184,7 @@ pub fn build_tree(lockfile: &Lockfile, config: &Config) -> CodegenTree {
             let segments: Vec<&str> = path_str.split('.').collect();
             insert_into_tree(&mut tree, &segments, leaf_key, id);
         } else {
-            // No dot — insert directly at root
+            // No dot: insert directly at root
             tree.insert(full_key.clone(), CodegenNode::Leaf(id));
         }
     }

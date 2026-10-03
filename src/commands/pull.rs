@@ -76,7 +76,7 @@ pub async fn run(cli: &Cli, dry_run: bool, accept_remote: bool, accept_local: bo
 
         if pass_locks.contains_key(&key) {
             println!(
-                "{} Duplicate pass name '{}' (id: {}) — skipping",
+                "{} Duplicate pass name '{}' (id: {}), skipping",
                 "!".yellow(),
                 display_name,
                 id
@@ -121,7 +121,7 @@ pub async fn run(cli: &Cli, dry_run: bool, accept_remote: bool, accept_local: bo
 
         if badge_locks.contains_key(&key) {
             println!(
-                "{} Duplicate badge name '{}' (id: {}) — skipping",
+                "{} Duplicate badge name '{}' (id: {}), skipping",
                 "!".yellow(),
                 display_name,
                 id
@@ -165,7 +165,7 @@ pub async fn run(cli: &Cli, dry_run: bool, accept_remote: bool, accept_local: bo
                     );
                 }
                 Err(_) => {
-                    // Badge was truly deleted on Roblox — will show as "removed"
+                    // Badge was truly deleted on Roblox: will show as "removed"
                 }
             }
         }
@@ -184,7 +184,7 @@ pub async fn run(cli: &Cli, dry_run: bool, accept_remote: bool, accept_local: bo
 
         if product_locks.contains_key(&key) {
             println!(
-                "{} Duplicate product name '{}' (id: {}) — skipping",
+                "{} Duplicate product name '{}' (id: {}), skipping",
                 "!".yellow(),
                 display_name,
                 id
@@ -218,7 +218,7 @@ pub async fn run(cli: &Cli, dry_run: bool, accept_remote: bool, accept_local: bo
     let product_config_changes = update_product_config(&mut config, &product_locks);
 
     // -----------------------------------------------------------------------
-    // Dry run — show diff and exit
+    // Dry run: show diff and exit
     // -----------------------------------------------------------------------
     if dry_run {
         let mut has_diff = false;
@@ -235,13 +235,13 @@ pub async fn run(cli: &Cli, dry_run: bool, accept_remote: bool, accept_local: bo
         if !has_diff {
             println!("{} Already up to date with remote.", "✓".green());
         } else {
-            println!("\n{} Dry run — no changes applied.", "ℹ".blue());
+            println!("\n{} Dry run: no changes applied.", "ℹ".blue());
         }
         return Ok(());
     }
 
     // -----------------------------------------------------------------------
-    // Normal pull — detect icon conflicts, download, save lockfile
+    // Normal pull: detect icon conflicts, download, save lockfile
     // -----------------------------------------------------------------------
 
     // Detect icon conflicts
@@ -475,7 +475,7 @@ fn update_pass_config(
     for (key, lock) in pass_locks {
         let new_name = config_name(&lock.name, key);
         if let Some(pc) = config.passes.get_mut(key) {
-            // Existing entry — update remote-visible fields, preserve config-only
+            // Existing entry: update remote-visible fields, preserve config-only
             let mut field_changes = Vec::new();
             if pc.name != new_name {
                 field_changes.push(format!("name: {:?} -> {:?}", pc.name, new_name));
@@ -927,7 +927,7 @@ fn resolve_icon(
     };
 
     if !icon_changed {
-        // No change in remote icon_asset_id — preserve old hash
+        // No change in remote icon_asset_id: preserve old hash
         return Ok(IconResolution::PreserveOld);
     }
 
@@ -963,9 +963,9 @@ fn resolve_icon(
         return Ok(IconResolution::SetNone);
     }
 
-    // No flag — check for conflict
+    // No flag: check for conflict
     let Some(local_path) = local_icon else {
-        // No local icon configured — no conflict, just clear hash
+        // No local icon configured: no conflict, just clear hash
         return Ok(IconResolution::SetNone);
     };
 
@@ -981,7 +981,7 @@ fn resolve_icon(
             .map(|id| id.to_string())
             .unwrap_or_else(|| "none".to_string()),
     });
-    // Temporarily return SetNone — won't be used since we'll bail
+    // Temporarily return SetNone: won't be used since we'll bail
     Ok(IconResolution::SetNone)
 }
 
