@@ -154,7 +154,10 @@ pub struct PassConfig {
     pub for_sale: bool,
     /// Deprecated by Roblox in favour of `managed_pricing`, which supersedes
     /// it. Kept because it is already in released configs.
-    #[serde(default)]
+    /// Not written when false: a config fresh from `init` would otherwise
+    /// show the deprecated key and not its successor, which reads as pricing
+    /// turned off.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
     pub regional_pricing: bool,
     /// Roblox's successor to `regional_pricing`: it bundles regional pricing
     /// with price optimization under one opt-in.
@@ -209,7 +212,10 @@ pub struct ProductConfig {
     #[serde(default = "default_true")]
     pub for_sale: bool,
     /// Deprecated by Roblox in favour of `managed_pricing`. See `PassConfig`.
-    #[serde(default)]
+    /// Not written when false: a config fresh from `init` would otherwise
+    /// show the deprecated key and not its successor, which reads as pricing
+    /// turned off.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
     pub regional_pricing: bool,
     /// See `PassConfig::managed_pricing`. Unlike a pass, a developer product
     /// is not opted in by Roblox on its own: enabling it also requires
